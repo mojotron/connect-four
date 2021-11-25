@@ -51,50 +51,6 @@ const inputToken = function (board, colIndex, tokenSign) {
   checkWinCondition(board, rowIndex, colIndex, tokenSign);
 };
 
-// AI
-// const getNextFreeMoves = function (board) {
-//   const freeSpots = [];
-//   // check columns for free spots
-//   for (let i = 0; i < COL_NUM; i += 1) {
-//     for (let j = 0; j < ROW_NUM; j += 1) {
-//       if (board[j][i] === 0) {
-//         freeSpots.push([j, i]);
-//         break;
-//       }
-//     }
-//   }
-//   if (!freeSpots.length) return false;
-//   return freeSpots;
-// };
-
-// const evaluateMove = function () {};
-
-// const minimax = function (position, depth, maximizer) {
-//   // break condition
-//   if (maximizer) {
-//     const bestMove = -Infinity;
-//   } else {
-//     const bestMove = Infinity;
-//     // loop
-//   }
-// };
-
-// const findBestMove = function (boardState) {
-//   const bestValue = -Infinity;
-//   let bestMove;
-//   const freeMoves = getNextFreeMoves(boardState);
-//   for (const move of freeMoves) {
-//     boardState[move[0]][move[1]] = TOKEN_AI;
-//     const currentValue = minimax(boardState, 3, false);
-//     boardState[move[0]][move[1]] = 0;
-//     if (currentValue > bestValue) {
-//       bestValue = currentValue;
-//       bestMove = move;
-//     }
-//   }
-//   return bestMove;
-// };
-
 // Basic game logic
 const board = createBoard(ROW_NUM, COL_NUM);
 displayBoard(board);

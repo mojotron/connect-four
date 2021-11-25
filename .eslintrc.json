@@ -13,6 +13,8 @@
     "no-alert": "off",
     "func-names": ["error", "as-needed"],
     //to update board object
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "no-else-return": "off",
+    "consistent-return": "off"
   }
 }
