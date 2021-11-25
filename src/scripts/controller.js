@@ -51,7 +51,6 @@ const inputToken = function (board, colIndex, tokenSign) {
   checkWinCondition(board, rowIndex, colIndex, tokenSign);
 };
 
-// Basic game logic
 const board = createBoard(ROW_NUM, COL_NUM);
 displayBoard(board);
 // findBestMove(board);

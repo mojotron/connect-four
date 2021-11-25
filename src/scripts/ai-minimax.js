@@ -1,3 +1,5 @@
+import checkWinCondition from './check-win-condition';
+
 // import { TOKEN_PLAYER_1 } from './config';
 const ROW_NUM = 6;
 const COL_NUM = 7;
@@ -112,10 +114,18 @@ const evaluateBoard = function (boardState, token) {
   }
   return score;
 };
+const boardFull = () => {};
 
 const minimax = function (boardState, depth, maximizer) {
-  // break condition
-  if (depth === 0) return;
+  // break condition terminate game
+  // player win
+  if (checkWinCondition(boardState, TOKEN_AI)) return 1000000;
+  if (checkWinCondition(boardState, TOKEN_PLAYER_1)) return -1000000;
+  if (boardFull(boardState)) return 0;
+  if (depth === 0)
+    // ai win
+    // no more empty cells
+    return evaluateBoard(boardState, TOKEN_AI);
   const boardStateEvaluation = evaluateBoard(boardState, TOKEN_AI);
   console.log(boardStateEvaluation);
   const availableMoves = getNextFreeMoves(boardState);
