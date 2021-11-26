@@ -8,6 +8,7 @@ import {
   TOKEN_AI,
 } from './config';
 import checkWinCondition from './check-win-condition';
+import findBestMove from './ai-minimax';
 
 const createBoard = function (row, col, cellValue = TOKEN_EMPTY_CELL) {
   return Array.from({ length: row }, () =>
@@ -56,14 +57,20 @@ displayBoard(board);
 // findBestMove(board);
 let i = 0;
 while (i < 42) {
-  const token = i % 2 === 0 ? TOKEN_PLAYER_1 : TOKEN_AI;
   const userInput = Number(prompt('Enter column'));
   console.clear();
-  inputToken(board, userInput, token);
+  inputToken(board, userInput, TOKEN_PLAYER_1);
+  const ai = findBestMove(board);
+  inputToken(board, ai[1], TOKEN_AI);
   displayBoard(board);
-  const winCondition = checkWinCondition(board, token);
+  const winCondition = checkWinCondition(board, TOKEN_PLAYER_1);
+  const loseCondition = checkWinCondition(board, TOKEN_AI);
   if (winCondition) {
     alert('WIN');
+    break;
+  }
+  if (loseCondition) {
+    alert('ai win');
     break;
   }
   i += 1;

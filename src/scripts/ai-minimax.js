@@ -1,20 +1,21 @@
 import checkWinCondition from './check-win-condition';
 
-// import { TOKEN_PLAYER_1 } from './config';
-const ROW_NUM = 6;
-const COL_NUM = 7;
-const TOKEN_EMPTY_CELL = '--';
-const TOKEN_PLAYER_1 = '😸';
-const TOKEN_AI = '🤖';
-// prettier-ignore
-const board = [
-  ['--', '--', '--', '--', '😸', '--', '--'],
-  ['--', '--', '--', '--', '😸', '--', '--'],
-  ['--', '--', '--', '--', '😸', '--', '--'],
-  ['--', '--', '--', '--', '--', '--', '--'],
-  ['--', '--', '--', '--', '--', '--', '--'],
-  ['--', '--', '--', '--', '--', '--', '--'],
-];
+import {
+  ROW_NUM,
+  COL_NUM,
+  TOKEN_PLAYER_1,
+  TOKEN_AI,
+  TOKEN_EMPTY_CELL,
+} from './config';
+
+const getColumn = function (board, columnIndex) {
+  const column = [];
+  for (let i = 0; i < ROW_NUM; i += 1) {
+    column.push(board[i][columnIndex]);
+  }
+  return column;
+};
+
 // AI
 const getNextFreeMoves = function (boardState) {
   const freeSpots = [];
@@ -55,8 +56,9 @@ const evaluateMove = function (line, token) {
   if (
     countTokens(line, opponentToken) === 3 &&
     countTokens(line, TOKEN_EMPTY_CELL) === 1
-  )
+  ) {
     return -4;
+  }
 
   return 0;
 };
@@ -64,6 +66,8 @@ const evaluateMove = function (line, token) {
 const evaluateBoard = function (boardState, token) {
   let score = 0;
   // center column
+  const centerColumn = getColumn(boardState, boardState.length / 2);
+  score += countTokens(centerColumn) * 3;
   // horizontal
   for (let i = 0; i < ROW_NUM; i += 1) {
     for (let j = 0; j < COL_NUM - 3; j += 1) {
@@ -114,54 +118,61 @@ const evaluateBoard = function (boardState, token) {
   }
   return score;
 };
-const boardFull = () => {};
+const boardFull = function (boardState) {
+  for (const row of boardState) {
+    if (row.includes(TOKEN_EMPTY_CELL)) return false;
+  }
+  return true;
+};
 
 const minimax = function (boardState, depth, maximizer) {
   // break condition terminate game
-  // player win
-  if (checkWinCondition(boardState, TOKEN_AI)) return 1000000;
-  if (checkWinCondition(boardState, TOKEN_PLAYER_1)) return -1000000;
-  if (boardFull(boardState)) return 0;
-  if (depth === 0)
-    // ai win
-    // no more empty cells
-    return evaluateBoard(boardState, TOKEN_AI);
-  const boardStateEvaluation = evaluateBoard(boardState, TOKEN_AI);
-  console.log(boardStateEvaluation);
+  if (checkWinCondition(boardState, TOKEN_AI)) {
+    // console.log('WIN');
+    return 1000000000000;
+  }
+  if (checkWinCondition(boardState, TOKEN_PLAYER_1)) {
+    // console.log('lose');
+    return -1000000000000;
+  }
+  if (boardFull(boardState)) {
+    // console.log('board full');
+    return 0;
+  }
+  if (depth === 0) return evaluateBoard(boardState, TOKEN_AI);
+
   const availableMoves = getNextFreeMoves(boardState);
   if (maximizer) {
     let bestMove = -Infinity;
-    availableMoves.forEach(move => {
+    for (const move of availableMoves) {
       boardState[move[0]][move[1]] = TOKEN_AI;
       bestMove = Math.max(bestMove, minimax(boardState, depth - 1, !maximizer));
       boardState[move[0]][move[1]] = TOKEN_EMPTY_CELL;
-    });
+    }
     return bestMove;
   } else {
-    let bestMove = -Infinity;
-    availableMoves.forEach(move => {
-      boardState[move[0]][move[1]] = TOKEN_AI;
-      bestMove = Math.max(bestMove, minimax(boardState, depth - 1, !maximizer));
+    let bestMove = Infinity;
+    for (const move of availableMoves) {
+      boardState[move[0]][move[1]] = TOKEN_PLAYER_1;
+      bestMove = Math.min(bestMove, minimax(boardState, depth - 1, !maximizer));
       boardState[move[0]][move[1]] = TOKEN_EMPTY_CELL;
-    });
+    }
     return bestMove;
   }
 };
 
-const findBestMove = function (boardState) {
+export default function findBestMove(boardState) {
   let bestValue = -Infinity;
   let bestMove;
   const freeMoves = getNextFreeMoves(boardState);
-  freeMoves.forEach(move => {
-    boardState[move[0]][move[1]] = TOKEN_AI;
-    const currentValue = minimax(boardState, 3, false);
-    boardState[move[0]][move[1]] = 0;
+  for (const [i, j] of freeMoves) {
+    boardState[i][j] = TOKEN_AI;
+    const currentValue = minimax(boardState, 5, false);
+    boardState[i][j] = TOKEN_EMPTY_CELL;
     if (currentValue > bestValue) {
       bestValue = currentValue;
-      bestMove = move;
+      bestMove = [i, j];
     }
-  });
+  }
   return bestMove;
-};
-
-console.log(findBestMove(board));
+}
