@@ -1,5 +1,4 @@
 import checkWinCondition from './check-win-condition';
-
 import {
   ROW_NUM,
   COL_NUM,
@@ -16,8 +15,7 @@ const getColumn = function (board, columnIndex) {
   return column;
 };
 
-// AI
-const getNextFreeMoves = function (boardState) {
+const getNextAvailableMoves = function (boardState) {
   const freeSpots = [];
   // check columns for free spots
   for (let i = 0; i < COL_NUM; i += 1) {
@@ -34,6 +32,13 @@ const getNextFreeMoves = function (boardState) {
 
 const countTokens = function (line, token) {
   return line.filter(ele => ele === token).length;
+};
+
+const boardFull = function (boardState) {
+  for (const row of boardState) {
+    if (row.includes(TOKEN_EMPTY_CELL)) return false;
+  }
+  return true;
 };
 
 const evaluateMove = function (line, token) {
@@ -118,44 +123,30 @@ const evaluateBoard = function (boardState, token) {
   }
   return score;
 };
-const boardFull = function (boardState) {
-  for (const row of boardState) {
-    if (row.includes(TOKEN_EMPTY_CELL)) return false;
-  }
-  return true;
-};
 
 const minimax = function (boardState, depth, maximizer) {
-  // break condition terminate game
-  if (checkWinCondition(boardState, TOKEN_AI)) {
-    // console.log('WIN');
-    return 1000000000000;
-  }
-  if (checkWinCondition(boardState, TOKEN_PLAYER_1)) {
-    // console.log('lose');
-    return -1000000000000;
-  }
-  if (boardFull(boardState)) {
-    // console.log('board full');
-    return 0;
-  }
+  // break condition AI wins, human wins, board filled or recursion max depth
+  if (checkWinCondition(boardState, TOKEN_AI)) return 1000000000;
+  if (checkWinCondition(boardState, TOKEN_PLAYER_1)) return -1000000000;
+  if (boardFull(boardState)) return 0;
   if (depth === 0) return evaluateBoard(boardState, TOKEN_AI);
 
-  const availableMoves = getNextFreeMoves(boardState);
+  const availableMoves = getNextAvailableMoves(boardState);
+
   if (maximizer) {
     let bestMove = -Infinity;
-    for (const move of availableMoves) {
-      boardState[move[0]][move[1]] = TOKEN_AI;
+    for (const [i, j] of availableMoves) {
+      boardState[i][j] = TOKEN_AI;
       bestMove = Math.max(bestMove, minimax(boardState, depth - 1, !maximizer));
-      boardState[move[0]][move[1]] = TOKEN_EMPTY_CELL;
+      boardState[i][j] = TOKEN_EMPTY_CELL;
     }
     return bestMove;
   } else {
     let bestMove = Infinity;
-    for (const move of availableMoves) {
-      boardState[move[0]][move[1]] = TOKEN_PLAYER_1;
+    for (const [i, j] of availableMoves) {
+      boardState[i][j] = TOKEN_PLAYER_1;
       bestMove = Math.min(bestMove, minimax(boardState, depth - 1, !maximizer));
-      boardState[move[0]][move[1]] = TOKEN_EMPTY_CELL;
+      boardState[i][j] = TOKEN_EMPTY_CELL;
     }
     return bestMove;
   }
@@ -164,10 +155,10 @@ const minimax = function (boardState, depth, maximizer) {
 export default function findBestMove(boardState) {
   let bestValue = -Infinity;
   let bestMove;
-  const freeMoves = getNextFreeMoves(boardState);
-  for (const [i, j] of freeMoves) {
+  const availableMoves = getNextAvailableMoves(boardState);
+  for (const [i, j] of availableMoves) {
     boardState[i][j] = TOKEN_AI;
-    const currentValue = minimax(boardState, 5, false);
+    const currentValue = minimax(boardState, 4, false);
     boardState[i][j] = TOKEN_EMPTY_CELL;
     if (currentValue > bestValue) {
       bestValue = currentValue;
