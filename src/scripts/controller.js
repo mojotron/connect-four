@@ -10,6 +10,8 @@ import {
 import checkWinCondition from './check-win-condition';
 import findBestMove from './ai-minimax';
 
+import DomBoard from './views/board-view';
+
 const createBoard = function (row, col, cellValue = TOKEN_EMPTY_CELL) {
   return Array.from({ length: row }, () =>
     Array.from({ length: col }, () => cellValue)
@@ -53,6 +55,7 @@ const inputToken = function (board, colIndex, tokenSign) {
 };
 
 const board = createBoard(ROW_NUM, COL_NUM);
+DomBoard(board);
 displayBoard(board);
 // findBestMove(board);
 let i = 0;

@@ -1,16 +1,24 @@
 :root {
   --ai-coin-color: rgb(233, 201, 23);
   --ai-coin-shadow-color: rgb(168, 158, 17);
-  --player1-coin-color: blue;
-  --player1-shadow-color: blue;
-  --player2-coin-color: red;
-  --player2-coin-shadow-color: red;
+  --player1-coin-color: rgb(21, 197, 250);
+  --player1-shadow-color: rgb(42, 156, 190);
+  --player2-coin-color: rgb(231, 64, 35);
+  --player2-coin-shadow-color: rgb(170, 48, 27);
+  --gradient-yellow: rgb(255, 242, 170);
+  --gradient-blue: rgb(180, 237, 255);
+  --gradient-red: rgb(245, 130, 110);
+  --coin-shadow-color: rgb(78, 69, 57);
 }
 html {
   font-size: 16px;
 }
 body {
   background-color: rgb(171, 212, 212);
+}
+/* PAGE LAYOUT */
+.wrapper {
+  display: grid;
 }
 /* TOKEN STYLE */
 .token,
@@ -23,27 +31,69 @@ body {
 .token {
   width: 5rem;
   height: 5rem;
+  box-shadow: 1px -1px 1px 1px var(--coin-shadow-color);
+  border-style: solid;
+  border-width: 1px;
 }
 .token--ai {
-  background-color: rgb(233, 201, 23);
-  box-shadow: 1px -1px 1px 1px rgb(168, 158, 17);
-  border: 1px solid rgb(243, 208, 8);
+  background-color: var(--ai-coin-color);
+  border-color: var(--ai-coin-color);
 }
 .token--p1 {
   background-color: var(--player1-coin-color);
+  border-color: var(--player1-coin-color);
 }
 .token--p2 {
   background-color: var(--player2-coin-color);
+  border-color: var(--player2-coin-color);
 }
-
 .token__body {
   width: 4rem;
   height: 4rem;
-  background-color: rgb(243, 202, 20);
-  border: 1px solid rgb(243, 208, 8);
-  box-shadow: 1px -1px 1px 1px rgb(168, 158, 17);
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 1px -1px 1px 1px var(--coin-shadow-color);
+}
+.token__body--ai {
+  background: linear-gradient(
+    245deg,
+    var(--ai-coin-color),
+    var(--gradient-yellow)
+  );
+  border-color: var(--ai-coin-color);
+}
+.token__body--p1 {
+  background: linear-gradient(
+    245deg,
+    var(--player1-coin-color),
+    var(--gradient-blue)
+  );
+  border-color: var(--player1-coin-color);
+}
+.token__body--p2 {
+  background: linear-gradient(
+    245deg,
+    var(--player2-coin-color),
+    var(--gradient-red)
+  );
+  border-color: var(--player2-coin-color);
 }
 .token__body__sign {
   font-size: 2.5rem;
   text-shadow: 1px -1px 1px rgb(83, 78, 8);
+}
+/* GAME BOARD STYLE */
+.game-board {
+  height: 400px;
+  width: 450px;
+  /* background-color: rgb(73, 85, 85); */
+  display: grid;
+  grid-gap: 3px;
+}
+
+.board-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: cornsilk;
 }
