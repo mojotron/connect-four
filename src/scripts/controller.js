@@ -52,20 +52,26 @@ const inputToken = function (board, colIndex, tokenSign) {
   }
   setToken(board, rowIndex, colIndex, tokenSign);
   checkWinCondition(board, rowIndex, colIndex, tokenSign);
+  return [rowIndex, colIndex];
 };
 
 const board = createBoard(ROW_NUM, COL_NUM);
-DomBoard(board);
+const temp = DomBoard();
+// temp.replaceCell(0, 6);
+// temp.replaceCell(0, 3);
+// temp.replaceCell(1, 6);
 displayBoard(board);
-// findBestMove(board);
+findBestMove(board);
 let i = 0;
 while (i < 42) {
   const userInput = Number(prompt('Enter column'));
   console.clear();
   inputToken(board, userInput, TOKEN_PLAYER_1);
   const ai = findBestMove(board);
-  inputToken(board, ai[1], TOKEN_AI);
+  const user = inputToken(board, ai[1], TOKEN_AI);
   displayBoard(board);
+  console.log(user);
+  temp.replaceCell(user[0], user[1]);
   const winCondition = checkWinCondition(board, TOKEN_PLAYER_1);
   const loseCondition = checkWinCondition(board, TOKEN_AI);
   if (winCondition) {

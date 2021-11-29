@@ -84,16 +84,30 @@ body {
 }
 /* GAME BOARD STYLE */
 .game-board {
-  height: 400px;
-  width: 450px;
-  /* background-color: rgb(73, 85, 85); */
+  height: 500px;
+  width: 550px;
   display: grid;
   grid-gap: 3px;
 }
-
 .board-cell {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: cornsilk;
+}
+.board-column:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.drop {
+  animation: drop 1.5s forwards;
+}
+@keyframes drop {
+  0% {
+    transform: translate3d(0, -400px, 0) rotate3d(0, 0, 1, -180deg);
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0px, 0) rotate3d(0, 0, 0, 0deg);
+  }
 }

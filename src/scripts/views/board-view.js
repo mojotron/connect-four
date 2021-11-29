@@ -1,45 +1,43 @@
 import { ROW_NUM, COL_NUM } from '../config';
 
 const DomBoard = function () {
+  const parentElement = document.querySelector('.board-wrapper');
   const board = document.createElement('div');
   board.className = 'game-board';
   board.style.gridTemplateColumns = `repeat(${COL_NUM}, 1fr)`;
   board.style.gridTemplateRows = `repeat(${ROW_NUM}, 1fr)`;
-  // create column wrappers
-  for (let i = 0; i < COL_NUM; i += 1) {
-    const column = document.createElement('div');
-    column.className = 'board-column';
-    column.dataset.columnIndex = i;
-    column.style.gridRow = `${1} / ${ROW_NUM + 1}`;
-    board.append(column);
-    column.addEventListener('click', e => {
-      alert(e.target.dataset.columnIndex);
-    });
+
+  for (let i = ROW_NUM - 1; i >= 0; i -= 1) {
+    for (let j = 0; j < COL_NUM; j += 1) {
+      const cell = document.createElement('div');
+      cell.className = 'board-cell';
+      cell.dataset.rowIndex = i;
+      cell.dataset.colIndex = j;
+      // cell.style.gridArea = `${i + 1} / ${j + 1} / ${i + 2} / ${j + 2}`;
+      board.append(cell);
+    }
   }
+  parentElement.append(board);
 
-  const fillColumns = function (data) {
-    const columns = document.querySelectorAll('.board-column');
-    columns.forEach((col, i) => {
-      for (let j = 0; j < ROW_NUM; j += 1) {
-        const cell = document.createElement('div');
-        cell.className = 'board-cell';
-        cell.textContent = data[i][j];
-      }
-    });
+  const replaceCell = function (rowIndex, colIndex) {
+    const oldCell = document.querySelector(
+      `[data-row-index="${rowIndex}"][data-col-index="${colIndex}"]`
+    );
+
+    const newCell = document.createElement('div');
+    newCell.className = 'board-cell';
+    newCell.innerHTML = `
+    <div class="token token--p1 drop">
+      <div class="token__body token__body--p1">
+        <p class="token__body__sign">🦝</p>
+      </div>
+    </div>
+    `;
+    oldCell.replaceWith(newCell);
   };
-
-  // for (let i = 0; i < ROW_NUM; i += 1) {
-  //   for (let j = 0; j < COL_NUM; j += 1) {
-  //     // <row-start> / <column-start> / <row-end> / <column-end>;
-  //     const element = document.createElement('div');
-  //     element.className = 'board-cell';
-  //     element.textContent = data[i][j];
-  //     element.style.gridArea = `${i + 1} / ${j + 1} / ${i + 2} / ${j + 2}`;
-  //     board.append(element);
-  //   }
-  // }
-  document.body.append(board);
-  return { fillColumns };
+  return {
+    replaceCell,
+  };
 };
 
 export default DomBoard;
