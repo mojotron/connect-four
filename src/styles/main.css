@@ -12,13 +12,23 @@
 }
 html {
   font-size: 16px;
+  box-sizing: border-box;
 }
 body {
+  height: 100vh;
+  width: 100%;
   background-color: rgb(171, 212, 212);
 }
 /* PAGE LAYOUT */
 .wrapper {
+  height: 100%;
+  width: 100%;
   display: grid;
+  grid-template-rows: 2fr 8fr;
+  grid-template-columns: 2fr 4fr 2fr;
+  /* grid-template:
+    'logo message select'
+    'aside-left board aside-right'; */
 }
 /* TOKEN STYLE */
 .token,
@@ -29,6 +39,7 @@ body {
   align-items: center;
 }
 .token {
+  box-sizing: border-box;
   width: 5rem;
   height: 5rem;
   box-shadow: 1px -1px 1px 1px var(--coin-shadow-color);
@@ -83,6 +94,10 @@ body {
   text-shadow: 1px -1px 1px rgb(83, 78, 8);
 }
 /* GAME BOARD STYLE */
+.board-wrapper {
+  grid-area: board;
+  grid-area: 2 / 2 / 3 / 3;
+}
 .game-board {
   height: 500px;
   width: 550px;
@@ -90,6 +105,8 @@ body {
   grid-gap: 3px;
 }
 .board-cell {
+  width: 5rem;
+  height: 5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,4 +127,8 @@ body {
     opacity: 1;
     transform: translate3d(0, 0px, 0) rotate3d(0, 0, 0, 0deg);
   }
+}
+/* GAME MODE */
+.game-mode {
+  grid-area: 2 / 3 / 3 / 4;
 }
