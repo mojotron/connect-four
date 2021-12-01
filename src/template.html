@@ -7,51 +7,38 @@
     <title>connect four</title>
   </head>
   <body>
-    <!-- <div class="token token--ai">
-      <div class="token__body token__body--ai">
-        <p class="token__body__sigh">🤖</p>
-      </div>
-    </div>-->
     <main class="wrapper">
       <section class="banner">
         <p class="banner__message"></p>
       </section>
       <section class="board-wrapper"></section>
-
-      <!-- <div class="game-mode">
-        <h2>select game mode</h2>
-        <form>
-          <div>
-            <input
-              data-mode="pvp"
-              type="radio"
-              name="game-mode"
-              id="pvp"
-              checked
-            />
-            <label for="pvp">player vs player</label>
-          </div>
-          <div>
-            <input
-              data-mode="easy"
-              type="radio"
-              name="game-mode"
-              id="pvai-easy"
-            />
-            <label for="pvai-easy">player vs ai easy</label>
-          </div>
-          <div>
-            <input type="radio" name="game-mode" id="pvai-easy" />
-            <label for="pvai-easy">player vs ai normal</label><br />
-          </div>
-          <div>
-            <input type="radio" name="game-mode" id="pvai-easy" />
-            <label for="pvai-easy">player vs ai hard</label><br />
-          </div>
-
-          <button class="btn">new game</button>
-        </form>
-      </div> -->
     </main>
+
+    <div class="new-game">
+      <header>
+        <h1>New Game</h1>
+      </header>
+      <form>
+        <div>
+          <input type="radio" name="game-mode" id="pvp" value="pvp" />
+          <label for="pvp">player vs player</label>
+        </div>
+        <div>
+          <input type="radio" name="game-mode" id="easyAi" value="easy" />
+          <label for="easyAi">player vs ai easy</label>
+        </div>
+        <div>
+          <input type="radio" name="game-mode" id="normalAi" value="normal" />
+          <label for="normalAi">player vs ai normal</label>
+        </div>
+        <div>
+          <input type="radio" name="game-mode" id="hardAi" value="hard" />
+          <label for="hardAi">player vs ai hard</label>
+        </div>
+
+        <button type="submit">Start New Game</button>
+      </form>
+    </div>
+    <div class="overlay"></div>
   </body>
 </html>

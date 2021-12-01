@@ -24,15 +24,25 @@ DomBoard.addCellClickHandler(i => {
     i,
     model.state.players[model.state.currentPlayer].token
   );
-  model.state.swapPlayers();
+  if (!x) return;
   model.displayBoard(model.state.board);
   DomBoard.replaceCell(
     x[0],
     x[1],
     model.state.players[model.state.currentPlayer]
   );
+
+  model.checkTerminateState(
+    model.state.board,
+    model.state.players[model.state.currentPlayer].token
+  );
+  model.state.swapPlayers();
 });
 
-// const curr = model.state.players[model.state.currentPlayer];
-// DomBoard.replaceCell(0, 0, curr);
-// console.log(model.state);
+// TODO
+const btn = document.querySelector('button');
+btn.addEventListener('click', e => {
+  e.preventDefault();
+  const mode = document.querySelector('input[name="game-mode"]:checked');
+  console.log(mode);
+});

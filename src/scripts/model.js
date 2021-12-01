@@ -10,7 +10,6 @@ import checkWinCondition from './check-win-condition';
 
 export const state = {
   board: null,
-  mode: null,
   difficulty: null,
   players: {
     one: null,
@@ -23,10 +22,17 @@ export const state = {
   },
 };
 
-export const createBoard = function (row, col, cellValue = TOKEN_EMPTY_CELL) {
+const createBoard = function (row, col, cellValue = TOKEN_EMPTY_CELL) {
   return Array.from({ length: row }, () =>
     Array.from({ length: col }, () => cellValue)
   );
+};
+// TODO
+const boardFull = function (boardState) {
+  for (const row of boardState) {
+    if (row.includes(TOKEN_EMPTY_CELL)) return false;
+  }
+  return true;
 };
 
 export const displayBoard = function (board) {
@@ -34,8 +40,6 @@ export const displayBoard = function (board) {
   const reversed = JSON.parse(JSON.stringify(board));
   reversed.reverse();
   reversed.forEach(row => console.log(row));
-  console.log('--Chose row number--');
-  console.log(Array.from({ length: board.length + 1 }, (_, i) => i));
 };
 
 const findEmptyColumnSlot = function (board, colIndex) {
@@ -53,23 +57,50 @@ const setToken = function (board, rowIndex, colIndex, tokenSign) {
 };
 
 export const inputToken = function (board, colIndex, tokenSign) {
-  if (colIndex < 0 || board.length < colIndex) {
-    alert('Invalid input [0-6]');
-    return;
-  }
+  // this part is for CLI game style
+  // if (colIndex < 0 || board.length < colIndex) {
+  //   alert('Invalid input [0-6]');
+  //   return false;
+  // }
+
   const rowIndex = findEmptyColumnSlot(board, colIndex);
   if (rowIndex === -1) {
     alert('Colum full!');
-    return;
+    return false;
   }
   setToken(board, rowIndex, colIndex, tokenSign);
   checkWinCondition(board, rowIndex, colIndex, tokenSign);
   return [rowIndex, colIndex];
 };
 
-export const init = function () {
-  state.board = createBoard(ROW_NUM, COL_NUM);
+export const checkTerminateState = function (boardState, token) {
+  // check for draw
+  const draw = boardFull(boardState);
+  if (draw) {
+    alert('DRAW');
+    document.querySelector('.overlay').classList.remove('hidden');
+    return;
+  }
+  // check for win
+  const win = checkWinCondition(boardState, token);
+  if (win) {
+    alert(`Winner is ${token}`);
+    document.querySelector('.overlay').classList.remove('hidden');
+  }
+};
+
+const init2PlayerMode = function () {
   state.players.one = PLAYER_1;
   state.players.two = PLAYER_2;
+};
+
+const initAiMode = function (difficulty) {
+  state.difficulty = difficulty;
+};
+
+export const init = function (mode) {
+  state.board = createBoard(ROW_NUM, COL_NUM);
   state.currentPlayer = Math.floor(Math.random() * 2) + 1 === 1 ? 'one' : 'two';
+  if (mode === 'pvp') init2PlayerMode();
+  if (mode === 'ai') initAiMode('easy');
 };

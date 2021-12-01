@@ -6,8 +6,8 @@
   --player2-coin-color: rgb(231, 64, 35);
   --player2-coin-shadow-color: rgb(170, 48, 27);
   --gradient-yellow: rgb(255, 242, 170);
-  --gradient-blue: rgb(180, 237, 255);
-  --gradient-red: rgb(245, 130, 110);
+  --gradient-blue: rgb(206, 242, 253);
+  --gradient-red: rgb(255, 187, 175);
   --coin-shadow-color: rgb(78, 69, 57);
 }
 html {
@@ -21,6 +21,7 @@ body {
 }
 /* PAGE LAYOUT */
 .wrapper {
+  z-index: 1;
   height: 100%;
   width: 100%;
   display: grid;
@@ -128,7 +129,27 @@ body {
     transform: translate3d(0, 0px, 0) rotate3d(0, 0, 0, 0deg);
   }
 }
-/* GAME MODE */
-.game-mode {
-  grid-area: 2 / 3 / 3 / 4;
+/* NEW GAME MODAL STYLE*/
+.new-game {
+  width: 30%;
+  height: 50%;
+  background-color: rgb(123, 139, 187);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+/* OVERLAY MODAL STYLE */
+.overlay {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+.hidden {
+  visibility: hidden;
 }
