@@ -1,48 +1,74 @@
 import '../styles/reset.css';
 import '../styles/main.css';
-// import {
-//   ROW_NUM,
-//   COL_NUM,
-//   TOKEN_EMPTY_CELL,
-//   TOKEN_PLAYER_1,
-//   TOKEN_AI,
-//   PLAYER_1,
-//   PLAYER_AI,
-// } from './config';
 
 import DomBoard from './views/board-view';
 import * as model from './model';
 
-// initialize state
-model.init('pvp', null);
-model.displayBoard(model.state.board);
-
-DomBoard.createBoard();
-DomBoard.addCellClickHandler(i => {
-  const x = model.inputToken(
+const updateStateBoard = function (column) {
+  return model.inputToken(
     model.state.board,
-    i,
+    column,
     model.state.players[model.state.currentPlayer].token
   );
-  if (!x) return;
-  model.displayBoard(model.state.board);
+};
+
+const updateDomBoard = function (row, column) {
   DomBoard.replaceCell(
-    x[0],
-    x[1],
+    row,
+    column,
     model.state.players[model.state.currentPlayer]
   );
+};
 
-  model.checkTerminateState(
-    model.state.board,
-    model.state.players[model.state.currentPlayer].token
-  );
+const makeAiMoveController = function (sec) {
+  setTimeout(() => {
+    const [row, column] = model.aiMove();
+    updateStateBoard(column);
+    updateDomBoard(row, column);
+    const win = model.checkTerminateState();
+    if (win) return;
+    model.state.swapPlayers();
+    document.querySelector('.overlay').classList.add('hidden');
+  }, sec * 1000);
+};
+
+const makePlayerMoveController = function (columnIndex) {
+  const userInput = updateStateBoard(columnIndex);
+  if (!userInput) return false; // if column is full stop, false value is used in ai controller
+  updateDomBoard(userInput[0], userInput[1]);
+  model.checkTerminateState();
   model.state.swapPlayers();
-});
+  return true;
+};
 
-// TODO
+const pvpClickBoardController = function (columnDom) {
+  makePlayerMoveController(columnDom);
+};
+
+const aiClickBoardController = function (columnDom) {
+  const validMove = makePlayerMoveController(columnDom);
+  if (!validMove) return;
+  document.querySelector('.overlay').classList.remove('hidden');
+  makeAiMoveController(1.5);
+};
+
+const init = function (mode) {
+  model.init(mode);
+  DomBoard.createBoard();
+  if (mode === 'pvp') {
+    DomBoard.addCellClickHandler(pvpClickBoardController);
+  } else {
+    DomBoard.addCellClickHandler(aiClickBoardController);
+    // if ai goes first
+    if (model.state.currentPlayer === 'two') makeAiMoveController(0.1);
+  }
+};
+
 const btn = document.querySelector('button');
 btn.addEventListener('click', e => {
   e.preventDefault();
   const mode = document.querySelector('input[name="game-mode"]:checked');
-  console.log(mode);
+  document.querySelector('.overlay').classList.add('hidden');
+  document.querySelector('.new-game').classList.add('hidden');
+  init(mode.value);
 });

@@ -162,13 +162,13 @@ const minimax = function (boardState, depth, alpha, beta, maximizer) {
   }
 };
 
-export default function findBestMove(boardState) {
+export default function findBestMove(boardState, depth) {
   let bestValue = -Infinity;
   let bestMove;
   const availableMoves = getNextAvailableMoves(boardState);
   for (const [i, j] of availableMoves) {
     boardState[i][j] = TOKEN_AI;
-    const currentValue = minimax(boardState, 3, -Infinity, Infinity, false);
+    const currentValue = minimax(boardState, depth, -Infinity, Infinity, false);
     boardState[i][j] = TOKEN_EMPTY_CELL;
     if (currentValue > bestValue) {
       bestValue = currentValue;
