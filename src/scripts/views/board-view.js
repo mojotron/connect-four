@@ -54,6 +54,7 @@ const DomBoard = function () {
     newCell.append(createToken(token));
     oldCell.replaceWith(newCell);
   };
+
   return {
     createBoard,
     replaceCell,

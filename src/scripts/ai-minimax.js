@@ -44,7 +44,7 @@ const boardFull = function (boardState) {
 const evaluateMove = function (line, token) {
   const opponentToken = token === TOKEN_PLAYER_1 ? TOKEN_AI : TOKEN_PLAYER_1;
   // 4 tokens in a row
-  if (countTokens(line, token) === 4) return 100;
+  if (countTokens(line, token) === 4) return 1000;
   // 3 tokens and 1 empty space
   if (
     countTokens(line, token) === 3 &&

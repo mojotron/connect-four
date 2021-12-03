@@ -9,4 +9,4 @@ export const PLAYER_AI = { id: 'ai', token: TOKEN_AI };
 export const PLAYER_1 = { id: 'p1', token: TOKEN_PLAYER_1 };
 export const PLAYER_2 = { id: 'p2', token: TOKEN_PLAYER_2 };
 
-export const GAME_MODE = { easy: 2, normal: 3, hard: 5 };
+export const GAME_MODE = { easy: 3, normal: 4, hard: 5 };

@@ -22,8 +22,6 @@ export const state = {
 
   swapPlayers() {
     this.currentPlayer = this.currentPlayer === 'one' ? 'two' : 'one';
-    document.querySelector('.banner__message').textContent =
-      this.players[this.currentPlayer].token;
   },
 };
 

@@ -1,8 +1,10 @@
 import '../styles/reset.css';
 import '../styles/main.css';
 
-import DomBoard from './views/board-view';
 import * as model from './model';
+import DomBoard from './views/board-view';
+import currentPlayerView from './views/current-player-view';
+import overlayView from './views/overlay-view';
 
 const updateStateBoard = function (column) {
   return model.inputToken(
@@ -28,6 +30,11 @@ const makeAiMoveController = function (sec) {
     const win = model.checkTerminateState();
     if (win) return;
     model.state.swapPlayers();
+
+    currentPlayerView.setIcon(
+      model.state.players[model.state.currentPlayer].token
+    );
+
     document.querySelector('.overlay').classList.add('hidden');
   }, sec * 1000);
 };
@@ -36,8 +43,14 @@ const makePlayerMoveController = function (columnIndex) {
   const userInput = updateStateBoard(columnIndex);
   if (!userInput) return false; // if column is full stop, false value is used in ai controller
   updateDomBoard(userInput[0], userInput[1]);
-  model.checkTerminateState();
+  const win = model.checkTerminateState();
+  if (win) return;
   model.state.swapPlayers();
+
+  currentPlayerView.setIcon(
+    model.state.players[model.state.currentPlayer].token
+  );
+
   return true;
 };
 
@@ -54,6 +67,9 @@ const aiClickBoardController = function (columnDom) {
 
 const init = function (mode) {
   model.init(mode);
+  currentPlayerView.setIcon(
+    model.state.players[model.state.currentPlayer].token
+  );
   DomBoard.createBoard();
   if (mode === 'pvp') {
     DomBoard.addCellClickHandler(pvpClickBoardController);
@@ -68,7 +84,7 @@ const btn = document.querySelector('button');
 btn.addEventListener('click', e => {
   e.preventDefault();
   const mode = document.querySelector('input[name="game-mode"]:checked');
-  document.querySelector('.overlay').classList.add('hidden');
+  overlayView.remove();
   document.querySelector('.new-game').classList.add('hidden');
   init(mode.value);
 });
