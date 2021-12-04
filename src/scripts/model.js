@@ -59,21 +59,13 @@ export const inputToken = function (board, colIndex, tokenSign) {
 export const checkTerminateState = function () {
   // check for draw
   const draw = boardFull(state.board);
-  if (draw) {
-    alert('DRAW');
-    document.querySelector('.overlay').classList.remove('hidden');
-    return true;
-  }
+  if (draw) return 'DRAW';
   // check for win
   const win = checkWinCondition(
     state.board,
     state.players[state.currentPlayer].token
   );
-  if (win) {
-    alert(`Winner is ${state.players[state.currentPlayer].token}`);
-    document.querySelector('.overlay').classList.remove('hidden');
-    return true;
-  }
+  if (win) return win;
 };
 // find best move for current game state (board state and game difficulty)
 export const aiMove = function () {

@@ -1,19 +1,22 @@
 import { ROW_NUM, COL_NUM } from './config';
 
-const checkLineWin = function (line, token) {
-  return line.every(ele => ele === token);
+const checkLineWin = function (board, line, token) {
+  return line.every(ele => {
+    const [i, j] = ele;
+    return board[i][j] === token;
+  });
 };
 
 const rowsCheck = function (board, token) {
   for (let i = 0; i < ROW_NUM; i += 1) {
     for (let j = 0; j < COL_NUM - 3; j += 1) {
       const line = [
-        board[i][j],
-        board[i][j + 1],
-        board[i][j + 2],
-        board[i][j + 3],
+        [i, j],
+        [i, j + 1],
+        [i, j + 2],
+        [i, j + 3],
       ];
-      if (checkLineWin(line, token)) return true;
+      if (checkLineWin(board, line, token)) return line;
     }
   }
   return false;
@@ -23,12 +26,12 @@ const columnsCheck = function (board, token) {
   for (let i = 0; i < ROW_NUM - 3; i += 1) {
     for (let j = 0; j < COL_NUM; j += 1) {
       const line = [
-        board[i][j],
-        board[i + 1][j],
-        board[i + 2][j],
-        board[i + 3][j],
+        [i, j],
+        [i + 1, j],
+        [i + 2, j],
+        [i + 3, j],
       ];
-      if (checkLineWin(line, token)) return true;
+      if (checkLineWin(board, line, token)) return line;
     }
   }
   return false;
@@ -38,12 +41,12 @@ const ascendingDiagonalCheck = function (board, token) {
   for (let i = 3; i < ROW_NUM; i += 1) {
     for (let j = 0; j < COL_NUM - 3; j += 1) {
       const line = [
-        board[i][j],
-        board[i - 1][j + 1],
-        board[i - 2][j + 2],
-        board[i - 3][j + 3],
+        [i, j],
+        [i - 1, j + 1],
+        [i - 2, j + 2],
+        [i - 3, j + 3],
       ];
-      if (checkLineWin(line, token)) return true;
+      if (checkLineWin(board, line, token)) return line;
     }
   }
   return false;
@@ -53,21 +56,25 @@ const descendingDiagonalCheck = function (board, token) {
   for (let i = 0; i < ROW_NUM - 3; i += 1) {
     for (let j = 0; j < COL_NUM - 3; j += 1) {
       const line = [
-        board[i][j],
-        board[i + 1][j + 1],
-        board[i + 2][j + 2],
-        board[i + 3][j + 3],
+        [i, j],
+        [i + 1, j + 1],
+        [i + 2, j + 2],
+        [i + 3, j + 3],
       ];
-      if (checkLineWin(line, token)) return true;
+      if (checkLineWin(board, line, token)) return line;
     }
   }
   return false;
 };
 
 export default function checkWinCondition(boardState, token) {
-  if (rowsCheck(boardState, token)) return true;
-  if (columnsCheck(boardState, token)) return true;
-  if (ascendingDiagonalCheck(boardState, token)) return true;
-  if (descendingDiagonalCheck(boardState, token)) return true;
+  const rowWin = rowsCheck(boardState, token);
+  if (rowWin) return rowWin;
+  const columnWin = columnsCheck(boardState, token);
+  if (columnWin) return columnWin;
+  const ascendingDiagonalWin = ascendingDiagonalCheck(boardState, token);
+  if (ascendingDiagonalWin) return ascendingDiagonalWin;
+  const descendingDiagonalWin = descendingDiagonalCheck(boardState, token);
+  if (descendingDiagonalWin) return descendingDiagonalWin;
   return false;
 }

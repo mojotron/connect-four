@@ -5,6 +5,8 @@ import * as model from './model';
 import DomBoard from './views/board-view';
 import currentPlayerView from './views/current-player-view';
 import overlayView from './views/overlay-view';
+import newGameModalView from './views/new-game-modal-view';
+import callModalBtnView from './views/call-modal-btn-view';
 
 const updateStateBoard = function (column) {
   return model.inputToken(
@@ -28,7 +30,16 @@ const makeAiMoveController = function (sec) {
     updateStateBoard(column);
     updateDomBoard(row, column);
     const win = model.checkTerminateState();
-    if (win) return;
+    if (win === 'DRAW') {
+      currentPlayerView.setIcon('draw');
+      overlayView.add();
+      return;
+    }
+    if (win) {
+      overlayView.add();
+      setTimeout(() => DomBoard.addTrophy(win), 1250);
+      return;
+    }
     model.state.swapPlayers();
 
     currentPlayerView.setIcon(
@@ -44,7 +55,16 @@ const makePlayerMoveController = function (columnIndex) {
   if (!userInput) return false; // if column is full stop, false value is used in ai controller
   updateDomBoard(userInput[0], userInput[1]);
   const win = model.checkTerminateState();
-  if (win) return;
+  if (win === 'DRAW') {
+    currentPlayerView.setIcon('draw');
+    overlayView.add();
+    return;
+  }
+  if (win) {
+    overlayView.add();
+    setTimeout(() => DomBoard.addTrophy(win), 1250);
+    return;
+  }
   model.state.swapPlayers();
 
   currentPlayerView.setIcon(
@@ -80,11 +100,20 @@ const init = function (mode) {
   }
 };
 
-const btn = document.querySelector('button');
-btn.addEventListener('click', e => {
-  e.preventDefault();
-  const mode = document.querySelector('input[name="game-mode"]:checked');
+const newGameStartController = function (mode) {
+  newGameModalView.removeModal();
   overlayView.remove();
-  document.querySelector('.new-game').classList.add('hidden');
-  init(mode.value);
+  init(mode);
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+  newGameModalView.createModal(newGameStartController);
 });
+
+const callNewGameController = function () {
+  if (document.querySelector('.new-game')) return;
+  DomBoard.removeBoard();
+  currentPlayerView.removeIcon();
+  newGameModalView.createModal(newGameStartController);
+};
+callModalBtnView.addHandler(callNewGameController);

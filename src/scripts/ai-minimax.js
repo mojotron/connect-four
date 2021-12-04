@@ -62,7 +62,7 @@ const evaluateMove = function (line, token) {
     countTokens(line, opponentToken) === 3 &&
     countTokens(line, TOKEN_EMPTY_CELL) === 1
   ) {
-    return -4;
+    return 100;
   }
 
   return 0;

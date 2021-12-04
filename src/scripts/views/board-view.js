@@ -36,7 +36,7 @@ const DomBoard = function () {
   };
 
   const addCellClickHandler = function (handler) {
-    parentElement.addEventListener('click', e => {
+    document.querySelector('.game-board').addEventListener('click', e => {
       const cell = e.target.closest('.board-cell');
       if (!cell) return;
       handler(cell.dataset.colIndex);
@@ -55,10 +55,27 @@ const DomBoard = function () {
     oldCell.replaceWith(newCell);
   };
 
+  const addTrophy = function (winLine) {
+    winLine.forEach(position => {
+      document
+        .querySelector(
+          `[data-row-index="${position[0]}"][data-col-index="${position[1]}"]`
+        )
+        .classList.add('winner');
+    });
+  };
+
+  const removeBoard = function () {
+    const board = document.querySelector('.game-board');
+    parentElement.removeChild(board);
+  };
+
   return {
     createBoard,
+    removeBoard, // for memory leak
     replaceCell,
     addCellClickHandler,
+    addTrophy,
   };
 };
 
