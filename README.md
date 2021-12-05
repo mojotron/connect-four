@@ -1,22 +1,30 @@
-# Connect fore
+# Connect four
+
+Goal of this project is to learn new skills, build awesome project and to have fun.
+
+[Play Connect four](https://mojotron.github.io/connect-four/). Game is hosted via Github Pages.
+
+# How to play
+
+Goal of game is to get four tokens connected on the board.
+Game has simple and basic design. On page load user choose desierd game mode. After presing 'Start New Game', board is created and game rendomly pick which player goes first. Current player icon is displayed above board. To place token user clicks on desired board column. Current player is switched and next player icon is displayed.
+On game start player starting first is randomly chosen.
+
+| Game mode        | Minimax Recursion Depth |
+| ---------------- | :---------------------: |
+| Player vs Player |          none           |
+| Easy             |            3            |
+| Normal           |            4            |
+| Hard             |            5            |
 
 ## What have I learned
 
-Set up ESLint and Prettier. ESLint is JavaScript linting tool (+). Prettier is a formatting tool(+).
-Airbnb JavaScript Style Guide.
+Set up JavaScript linting tool ESLint and formatting tool Prettier.
+Fallow Airbnb JavaScript Style Guide.
 Setting up Visual Studio Code to automatically run ESLint and Prettier.
-Set up pre-commit hook at will run ESLint and Prettier before you commit.
-Install development dependacies.
-npm install --save-dev eslint eslint-config-prettier prettier
-Create a ESLint config file.
-npx eslint --init
-"extends": ["other-stuff", "prettier"], <= eslint-config-prettier - that simply override conflicting rules between ESLint and Prettier
-.prettierrc
-scripts
-"format:check": "prettier --check .",
-"format:write": "prettier --write .",
-"lint:check": "eslint .",
-"lint:fix": "eslint --fix ."
+Set up pre-commit hook that will run ESLint and Prettier before you commit with Husky package.
+Override conflicting rules between ESLint and Prettier.
+Configuret ESLint and prittier.
 
 Minimax
 Alpha beta pruning

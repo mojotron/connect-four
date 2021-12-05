@@ -6,6 +6,9 @@ import {
   PLAYER_2,
   PLAYER_AI,
   GAME_MODE,
+  DRAW,
+  ONE,
+  TWO,
 } from './config';
 import checkWinCondition from './check-win-condition';
 import findBestMove from './ai-minimax';
@@ -21,7 +24,7 @@ export const state = {
   currentPlayer: null,
 
   swapPlayers() {
-    this.currentPlayer = this.currentPlayer === 'one' ? 'two' : 'one';
+    this.currentPlayer = this.currentPlayer === ONE ? TWO : ONE;
   },
 };
 
@@ -48,6 +51,7 @@ const setToken = function (board, rowIndex, colIndex, tokenSign) {
 export const inputToken = function (board, colIndex, tokenSign) {
   const rowIndex = findEmptyColumnSlot(board, colIndex);
   if (rowIndex === -1) {
+    // using default alert, game can go without this alert or custom one
     alert('Colum full!');
     return false;
   }
@@ -59,7 +63,7 @@ export const inputToken = function (board, colIndex, tokenSign) {
 export const checkTerminateState = function () {
   // check for draw
   const draw = boardFull(state.board);
-  if (draw) return 'DRAW';
+  if (draw) return DRAW;
   // check for win
   const win = checkWinCondition(
     state.board,
@@ -85,7 +89,7 @@ const initAiMode = function (difficulty) {
 export const init = function (mode) {
   state.players.one = PLAYER_1;
   state.board = createBoard(ROW_NUM, COL_NUM);
-  state.currentPlayer = Math.floor(Math.random() * 2) + 1 === 1 ? 'one' : 'two';
+  state.currentPlayer = Math.floor(Math.random() * 2) + 1 === 1 ? ONE : TWO;
   if (mode === 'pvp') init2PlayerMode();
   else initAiMode(mode);
 };

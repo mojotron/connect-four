@@ -1,4 +1,5 @@
 import { ROW_NUM, COL_NUM } from '../config';
+import tokenView from './token-view';
 
 const DomBoard = function () {
   const parentElement = document.querySelector('.board-wrapper');
@@ -22,19 +23,6 @@ const DomBoard = function () {
     parentElement.append(board);
   };
 
-  const createToken = function (token) {
-    const tokenElement = document.createElement('div');
-    tokenElement.className = `token token--${token.id} drop`;
-    const innerElement = document.createElement('div');
-    innerElement.className = `token__body token__body--${token.id}`;
-    const paraElement = document.createElement('p');
-    paraElement.className = `token__body__sign`;
-    paraElement.textContent = token.token;
-    innerElement.append(paraElement);
-    tokenElement.append(innerElement);
-    return tokenElement;
-  };
-
   const addCellClickHandler = function (handler) {
     document.querySelector('.game-board').addEventListener('click', e => {
       const cell = e.target.closest('.board-cell');
@@ -51,11 +39,11 @@ const DomBoard = function () {
     newCell.dataset.rowIndex = rowIndex;
     newCell.dataset.colIndex = colIndex;
     newCell.className = 'board-cell';
-    newCell.append(createToken(token));
+    newCell.append(tokenView.create(token));
     oldCell.replaceWith(newCell);
   };
 
-  const addTrophy = function (winLine) {
+  const addWinningLine = function (winLine) {
     winLine.forEach(position => {
       document
         .querySelector(
@@ -75,7 +63,7 @@ const DomBoard = function () {
     removeBoard, // for memory leak
     replaceCell,
     addCellClickHandler,
-    addTrophy,
+    addWinningLine,
   };
 };
 

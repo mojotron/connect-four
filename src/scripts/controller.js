@@ -1,6 +1,7 @@
 import '../styles/reset.css';
 import '../styles/main.css';
 import * as model from './model';
+import { DRAW } from './config';
 import DomBoard from './views/board-view';
 import currentPlayerView from './views/current-player-view';
 import overlayView from './views/overlay-view';
@@ -33,23 +34,21 @@ const makeAiMoveController = function (sec) {
     updateStateBoard(column);
     updateDomBoard(row, column);
     const win = model.checkTerminateState();
-    if (win === 'DRAW') {
-      currentPlayerView.setIcon('draw');
+    if (win === DRAW) {
+      currentPlayerView.setIcon(DRAW);
       overlayView.add();
       return;
     }
     if (win) {
       overlayView.add();
-      setTimeout(() => DomBoard.addTrophy(win), 1250);
+      setTimeout(() => DomBoard.addWinningLine(win), 1250);
       return;
     }
     model.state.swapPlayers();
-
     currentPlayerView.setIcon(
       model.state.players[model.state.currentPlayer].token
     );
-
-    document.querySelector('.overlay').classList.add('hidden');
+    overlayView.remove();
   }, sec * 1000);
 };
 
@@ -58,14 +57,14 @@ const makePlayerMoveController = function (columnIndex) {
   if (!userInput) return false; // if column is full stop, false value is used in ai controller
   updateDomBoard(userInput[0], userInput[1]);
   const win = model.checkTerminateState();
-  if (win === 'DRAW') {
-    currentPlayerView.setIcon('draw');
+  if (win === DRAW) {
+    currentPlayerView.setIcon(DRAW);
     overlayView.add();
     return;
   }
   if (win) {
     overlayView.add();
-    setTimeout(() => DomBoard.addTrophy(win), 1250);
+    setTimeout(() => DomBoard.addWinningLine(win), 1250);
     return;
   }
   model.state.swapPlayers();
@@ -84,7 +83,7 @@ const pvpClickBoardController = function (columnDom) {
 const aiClickBoardController = function (columnDom) {
   const validMove = makePlayerMoveController(columnDom);
   if (!validMove) return;
-  document.querySelector('.overlay').classList.remove('hidden');
+  overlayView.add();
   makeAiMoveController(1.5);
 };
 

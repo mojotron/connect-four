@@ -6,20 +6,20 @@ const NewGameModal = function () {
       <h1 class="new-game__header">Select New Game Mode</h1>
       <form>
         <div class="new-game__mode">
-          <input class="new-game__mode__input" checked type="radio" name="game-mode" id="pvp" value="pvp" />
-          <label for="pvp">player vs player</label>
+          <input checked type="radio" name="game-mode" id="pvp" value="pvp" />
+          <label for="pvp">Player vs Player</label>
         </div>
         <div class="new-game__mode">
           <input type="radio" name="game-mode" id="easyAi" value="easy" />
-          <label for="easyAi">player vs ai easy</label>
+          <label for="easyAi">Player vs Easy AI</label>
         </div>
         <div class="new-game__mode">
           <input type="radio" name="game-mode" id="normalAi" value="normal" />
-          <label for="normalAi">player vs ai normal</label>
+          <label for="normalAi">Player vs Normal AI</label>
         </div>
         <div class="new-game__mode">
           <input type="radio" name="game-mode" id="hardAi" value="hard" />
-          <label for="hardAi">player vs ai hard</label>
+          <label for="hardAi">Player vs Hard AI</label>
         </div>
 
         <button class="btn new-game__btn--start" type="submit">
@@ -40,6 +40,7 @@ const NewGameModal = function () {
   const createModal = function (handler) {
     document.body.append(makeModalElement(handler));
   };
+
   const removeModal = function () {
     document.querySelector('.new-game').remove();
   };

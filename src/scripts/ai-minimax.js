@@ -1,4 +1,5 @@
 import checkWinCondition from './check-win-condition';
+import { boardFull } from './helpers';
 import {
   ROW_NUM,
   COL_NUM,
@@ -32,13 +33,6 @@ const getNextAvailableMoves = function (boardState) {
 
 const countTokens = function (line, token) {
   return line.filter(ele => ele === token).length;
-};
-
-const boardFull = function (boardState) {
-  for (const row of boardState) {
-    if (row.includes(TOKEN_EMPTY_CELL)) return false;
-  }
-  return true;
 };
 
 const evaluateMove = function (line, token) {

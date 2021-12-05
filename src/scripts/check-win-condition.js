@@ -68,6 +68,8 @@ const descendingDiagonalCheck = function (board, token) {
 };
 
 export default function checkWinCondition(boardState, token) {
+  // returning winning line coordinates so we can add style to those coordinates
+  // on dom board for win effect
   const rowWin = rowsCheck(boardState, token);
   if (rowWin) return rowWin;
   const columnWin = columnsCheck(boardState, token);
