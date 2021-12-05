@@ -1,12 +1,12 @@
 import '../styles/reset.css';
 import '../styles/main.css';
-
 import * as model from './model';
 import DomBoard from './views/board-view';
 import currentPlayerView from './views/current-player-view';
 import overlayView from './views/overlay-view';
 import newGameModalView from './views/new-game-modal-view';
-import callModalBtnView from './views/call-modal-btn-view';
+import logoView from './views/logo-view';
+import callBtnView from './views/call-btn-view';
 
 const updateStateBoard = function (column) {
   return model.inputToken(
@@ -23,6 +23,9 @@ const updateDomBoard = function (row, column) {
     model.state.players[model.state.currentPlayer]
   );
 };
+
+// const terminateStateCoordinator = function (terminateState) {
+// };
 
 const makeAiMoveController = function (sec) {
   setTimeout(() => {
@@ -100,20 +103,21 @@ const init = function (mode) {
   }
 };
 
-const newGameStartController = function (mode) {
-  newGameModalView.removeModal();
-  overlayView.remove();
-  init(mode);
-};
-
-window.addEventListener('DOMContentLoaded', () => {
-  newGameModalView.createModal(newGameStartController);
-});
-
 const callNewGameController = function () {
-  if (document.querySelector('.new-game')) return;
+  callBtnView.remove();
   DomBoard.removeBoard();
   currentPlayerView.removeIcon();
   newGameModalView.createModal(newGameStartController);
 };
-callModalBtnView.addHandler(callNewGameController);
+
+const newGameStartController = function (mode) {
+  newGameModalView.removeModal();
+  overlayView.remove();
+  callBtnView.add(callNewGameController);
+  init(mode);
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+  logoView.add();
+  newGameModalView.createModal(newGameStartController);
+});

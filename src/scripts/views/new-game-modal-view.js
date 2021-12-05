@@ -6,7 +6,7 @@ const NewGameModal = function () {
       <h1 class="new-game__header">Select New Game Mode</h1>
       <form>
         <div class="new-game__mode">
-          <input checked type="radio" name="game-mode" id="pvp" value="pvp" />
+          <input class="new-game__mode__input" checked type="radio" name="game-mode" id="pvp" value="pvp" />
           <label for="pvp">player vs player</label>
         </div>
         <div class="new-game__mode">

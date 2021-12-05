@@ -12,10 +12,13 @@
     "no-console": "off",
     "no-alert": "off",
     "func-names": ["error", "as-needed"],
-    //to update board object
     "no-param-reassign": "off",
     "no-else-return": "off",
     "consistent-return": "off",
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "no-use-before-define": [
+      "off",
+      { "functions": false, "classes": true, "variables": true }
+    ]
   }
 }
