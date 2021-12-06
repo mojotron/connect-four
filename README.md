@@ -6,9 +6,8 @@ Goal of this project is to learn new skills, build awesome project and to have f
 
 # How to play
 
-Goal of game is to get four tokens connected on the board.
-Game has simple and basic design. On page load user choose desierd game mode. After presing 'Start New Game', board is created and game rendomly pick which player goes first. Current player icon is displayed above board. To place token user clicks on desired board column. Current player is switched and next player icon is displayed.
-On game start player starting first is randomly chosen.
+Goal of the game is to get four tokens connected on the board.
+Game has simple and basic design. On the page load, user choose desired game mode. After pressing the 'Start New Game' button, board is created and game randomly pick which player goes first. First player icon is displayed above board. To place token user clicks on desired board column. After click current player is switched and next player icon is displayed.
 
 | Game mode        | Minimax Recursion Depth |
 | ---------------- | :---------------------: |
@@ -19,15 +18,14 @@ On game start player starting first is randomly chosen.
 
 ## What have I learned
 
-Set up JavaScript linting tool ESLint and formatting tool Prettier.
-Fallow Airbnb JavaScript Style Guide.
-Setting up Visual Studio Code to automatically run ESLint and Prettier.
-Set up pre-commit hook that will run ESLint and Prettier before you commit with Husky package.
-Override conflicting rules between ESLint and Prettier.
-Configuret ESLint and prittier.
+- Set up JavaScript linting tool ESLint and formatting tool Prettier.
+- Fallow Airbnb JavaScript Style Guide.
+- Setting up Visual Studio Code to automatically run ESLint and Prettier.
+- Set up pre-commit hook that will run ESLint and Prettier before you commit with Husky package.
+- Override conflicting rules between ESLint and Prettier.
+- Configure ESLint and Prettier.
 
-Minimax
-Alpha beta pruning
+- Upgrade Minimax algorithm with alpha beta pruning
 
 ## Connect four AI
 
@@ -35,7 +33,7 @@ Minimax is a decision rule used in artificial intelligence, decision theory, gam
 
 To improve minimax performance, alpha-beta pruning is added to the algorithm. Alpha-beta pruning is search algorithm that looks up to decrease number of nodes to evaluate. It stops evaluating a move when at least one possibility has been found that proves the move to be worse than a previously examined move. Such moves need not be evaluated further. When applied to a standard minimax tree, it returns the same move as minimax would, but prunes away branches that cannot possibly influence the final decision.
 
-Before this project I made minimax algorithm in Tic Tac Toe game. I used that algorithm and modified it for connect four game. Biggest problem was evaluating part of the algorithm but with help of resources and after understanding what tot do it was pretty easy to. Extending minimax algorithm to alpha-beta pruning is straight forward when you understand data flow through recursion calls.
+Before this project I made minimax algorithm in the [Tic Tac Toe](https://github.com/mojotron/tic-tac-toe) game. I used same algorithm and modified it for connect four game. Biggest problem was evaluating part of the algorithm but with help of the resources, and after understanding what to do it was pretty easy to implement algorithm. Extending minimax algorithm to alpha-beta pruning is straight forward if minimax is working.
 
 ## Minimax Resources
 
